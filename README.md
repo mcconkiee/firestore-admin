@@ -2,4 +2,9 @@
 
 1.  add your specific web config to `app/config/index.js`- you can get this from the firebase console, under project settings
 
-from root, `npm start`
+from root,
+
+```
+yarn
+npm start
+```
