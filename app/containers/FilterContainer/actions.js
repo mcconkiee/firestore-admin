@@ -14,6 +14,7 @@ import {
   APPLY_FILTER_ERROR,
   APPLY_FILTER_SUCCESS,
   RESET_FILTERS,
+  APPLY_CURRENT_FILTERS,
 } from './constants';
 const uuid = require('uuid/v1');
 export function defaultAction() {
@@ -72,6 +73,12 @@ export function applyFilters(filters) {
   return {
     type: APPLY_FILTERS,
     data: filters,
+  };
+}
+
+export function applyCurrentFilters() {
+  return {
+    type: APPLY_CURRENT_FILTERS,
   };
 }
 

@@ -15,7 +15,7 @@ import { Anchor, NestObject } from './styles';
 import makeSelectAdminContainer from '../../containers/AdminContainer/selectors';
 import { FilterButton } from '../../containers/FilterContainer/styles';
 import {
-  applyFilters,
+  applyCurrentFilters,
   addDocRefFilter,
   addFilter,
 } from '../../containers/FilterContainer/actions';
@@ -28,7 +28,18 @@ const primitiveValue = val =>
 const destuct = (docSnap, ky, props) => {
   const obj = docSnap[ky];
   if (!obj) return '';
-  if (primitiveValue(obj)) return obj;
+  if (primitiveValue(obj))
+    return (
+      <FilterButton
+        onClick={e => {
+          e.preventDefault();
+          props.addFilter(String, ky, obj);
+          props.applyCurrentFilters();
+        }}
+      >
+        {obj}
+      </FilterButton>
+    );
   if (isBoolean(obj)) {
     return obj === false ? 'false' : 'true';
   }
@@ -41,7 +52,7 @@ const destuct = (docSnap, ky, props) => {
         onClick={e => {
           e.preventDefault();
           props.addFilter(Date, ky, momentDate.toDate());
-          props.applyFilters();
+          props.applyCurrentFilters();
         }}
       >
         {formatDate}
@@ -57,7 +68,7 @@ const destuct = (docSnap, ky, props) => {
           onClick={e => {
             e.preventDefault();
             props.addDocRefFilter(obj, ky);
-            props.applyFilters();
+            props.applyCurrentFilters();
           }}
         >
           find all {props.adminContainer.collectionName}
@@ -105,7 +116,7 @@ DocItem.propTypes = {
 const mapStateToProps = createStructuredSelector({
   adminContainer: makeSelectAdminContainer(),
 });
-const mapDispatchToProps = { addFilter, addDocRefFilter, applyFilters };
+const mapDispatchToProps = { addFilter, addDocRefFilter, applyCurrentFilters };
 
 const withConnect = connect(
   mapStateToProps,

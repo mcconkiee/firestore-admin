@@ -26,8 +26,8 @@ import messages from './messages';
 import {
   applyFilters,
   addFilter,
-  addDocRefFilter,
   removeFilter,
+  resetFilters,
   modifyFilter,
 } from './actions';
 import FilterItem from '../../components/FilterItem/index';
@@ -88,15 +88,7 @@ export class FilterContainer extends React.Component {
                   this.props.addFilter();
                 }}
               >
-                +
-              </button>
-              <button
-                onClick={e => {
-                  e.preventDefault();
-                  this.props.addDocRefFilter();
-                }}
-              >
-                docRef
+                Add
               </button>
             </div>
             <ul>
@@ -132,6 +124,15 @@ export class FilterContainer extends React.Component {
             <button
               onClick={e => {
                 e.preventDefault();
+                this.props.resetFilters();
+                this.setState({ filtering: false });
+              }}
+            >
+              Reset
+            </button>
+            <button
+              onClick={e => {
+                e.preventDefault();
                 this.setState({ filtering: false });
                 const { collectionName } = this.props.adminContainer;
                 this.props.applyFilters({ collectionName, filters });
@@ -152,11 +153,11 @@ export class FilterContainer extends React.Component {
 FilterContainer.propTypes = {
   adminContainer: PropTypes.instanceOf(Object),
   addFilter: PropTypes.func,
-  addDocRefFilter: PropTypes.func,
   applyFilters: PropTypes.func,
   filtercontainer: PropTypes.instanceOf(Object),
   modifyFilter: PropTypes.func,
   removeFilter: PropTypes.func,
+  resetFilters: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -166,7 +167,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   addFilter,
-  addDocRefFilter,
+  resetFilters,
   applyFilters,
   modifyFilter,
   removeFilter,

@@ -13,13 +13,13 @@ import {
   RESET_FILTERS,
 } from './constants';
 
-export const initialState = {
+export const initialState = () => ({
   filters: [],
   error: null,
   docs: null,
-};
+});
 
-function filterContainerReducer(state = initialState, action) {
+function filterContainerReducer(state = initialState(), action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -44,7 +44,7 @@ function filterContainerReducer(state = initialState, action) {
         filters: action.data,
       };
     case RESET_FILTERS:
-      return initialState;
+      return initialState();
     default:
       return state;
   }
