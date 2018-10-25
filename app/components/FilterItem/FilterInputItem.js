@@ -50,21 +50,38 @@ class FilterInputItem extends React.Component {
           />
         </span>
         <span>{selectOperators(f, this.props.onUpdate, this.state)}</span>
-        <span>
-          <TextField
-            onChange={e => {
-              const val = e.target.value;
-              f.val = val;
-              this.setState({ val });
-            }}
-            onBlur={() => {
-              this.props.onUpdate(f);
-            }}
-            type="text"
-            placeholder="value"
-            value={this.state.val || ''}
-          />
-        </span>
+        {this.props.selectableOptions ? (
+          <span>
+            <select
+              onChange={e => {
+                e.preventDefault();
+                const val = e.target.value;
+                f.val = val;
+                this.props.onUpdate(f);
+              }}
+            >
+              {this.props.selectableOptions.map(o => (
+                <option value={o.val}>{o.label}</option>
+              ))}
+            </select>
+          </span>
+        ) : (
+          <span>
+            <TextField
+              onChange={e => {
+                const val = e.target.value;
+                f.val = val;
+                this.setState({ val });
+              }}
+              onBlur={() => {
+                this.props.onUpdate(f);
+              }}
+              type="text"
+              placeholder="value"
+              value={this.state.val || ''}
+            />
+          </span>
+        )}
       </div>
     );
   }
@@ -75,6 +92,7 @@ FilterInputItem.propTypes = {
   onUpdate: PropTypes.func,
   term: PropTypes.string,
   operator: PropTypes.string,
+  selectableOptions: PropTypes.arrayOf(PropTypes.any),
   val: PropTypes.string,
 };
 

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { isBoolean } from 'util';
+import { TableCell, TableRow } from '@material-ui/core';
 import { Anchor, NestObject } from './styles';
 import makeSelectAdminContainer from '../../containers/AdminContainer/selectors';
 import { FilterButton } from '../../containers/FilterContainer/styles';
@@ -41,7 +42,17 @@ const destuct = (docSnap, ky, props) => {
       </FilterButton>
     );
   if (isBoolean(obj)) {
-    return obj === false ? 'false' : 'true';
+    return (
+      <FilterButton
+        onClick={e => {
+          e.preventDefault();
+          props.addFilter(Boolean, ky, obj);
+          props.applyCurrentFilters();
+        }}
+      >
+        {obj === false ? 'false' : 'true'}
+      </FilterButton>
+    );
   }
 
   if (obj instanceof firebase.firestore.Timestamp) {
@@ -78,13 +89,14 @@ const destuct = (docSnap, ky, props) => {
   }
 
   if (obj instanceof Object) {
+    // return <div>{destuct(obj)}</div>;
     const keys = Object.keys(obj);
     return (
       <NestObject>
         {keys.map(k => (
           <div key={uuidv1()}>
             <h5>{k}</h5>
-            <span>{obj[k]}</span>
+            <span>{destuct(obj, k, props)}</span>
           </div>
         ))}
       </NestObject>
@@ -99,14 +111,14 @@ function DocItem(props) {
   const keys = Object.keys(docSnap);
 
   return (
-    <div>
+    <TableRow>
       {keys.map(ky => (
-        <div key={uuidv1()}>
+        <TableCell key={uuidv1()}>
           <h3>{ky}</h3>
           {destuct(docSnap, ky, props)}
-        </div>
+        </TableCell>
       ))}
-    </div>
+    </TableRow>
   );
 }
 

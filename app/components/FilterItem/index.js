@@ -18,7 +18,18 @@ class FilterItem extends React.Component {
       case String:
         return <FilterInputItem data={f} onUpdate={this.props.onUpdate} />;
       case Date:
-        return <DateFilterItem data={f} onUpdate={this.props.onUpdate} />;
+        return <FilterInputItem data={f} onUpdate={this.props.onUpdate} />;
+      case Boolean:
+        return (
+          <FilterInputItem
+            selectableOptions={[
+              { val: true, label: 'TRUE' },
+              { val: false, label: 'FALSE' },
+            ]}
+            data={f}
+            onUpdate={this.props.onUpdate}
+          />
+        );
       case firestore.DocumentReference:
         return <DocRefFilterItem data={f} />;
       default:
