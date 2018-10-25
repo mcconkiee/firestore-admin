@@ -8,3 +8,7 @@ from root,
 yarn
 npm start
 ```
+
+# TODOS (so many)
+
+- paginate

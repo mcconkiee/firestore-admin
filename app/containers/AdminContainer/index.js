@@ -53,7 +53,7 @@ export class AdminContainer extends React.Component {
   }
   defaultUI() {
     const { docs } = this.props.adminContainer;
-    return <div>{docs ? <DocsCollection data={docs} /> : null}</div>;
+    return docs ? <DocsCollection data={docs} /> : null;
   }
   render() {
     const { docs } = this.props.filterContainer;
