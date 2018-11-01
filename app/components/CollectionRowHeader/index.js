@@ -19,6 +19,7 @@ function CollectionRowHeader({ data }) {
   const terms = _.uniq(_.flatten(uniqs));
   return (
     <TableRow>
+      <TableCell>Id</TableCell>
       {terms.map(u => <TableCell key={uuid()}>{u}</TableCell>)}
     </TableRow>
   );

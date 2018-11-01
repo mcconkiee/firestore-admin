@@ -112,6 +112,7 @@ function DocItem(props) {
 
   return (
     <TableRow>
+      <TableCell>{data.ref.id}</TableCell>
       {keys.map(ky => (
         <TableCell key={uuidv1()}>
           <h3>{ky}</h3>
